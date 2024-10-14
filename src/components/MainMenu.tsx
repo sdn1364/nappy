@@ -24,7 +24,7 @@ const MainMenu = () => {
     },
   ];
   return (
-    <div className="w-full">
+    <div className="w-full px-5">
       <Menubar>
         {menus.map((m, i) => (
           <MenubarMenu key={i}>
