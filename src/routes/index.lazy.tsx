@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import Page from "@/components/Page";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/")({
@@ -6,10 +6,5 @@ export const Route = createLazyFileRoute("/")({
 });
 
 function Index() {
-  return (
-    <div>
-      <h3>home</h3>
-      <Button variant="default">button</Button>
-    </div>
-  );
+  return <Page>Home</Page>;
 }
