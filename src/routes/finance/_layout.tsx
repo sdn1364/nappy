@@ -1,14 +1,8 @@
 import Page from "@/components/Page";
 import { Button, Divider, Group, Stack, Title } from "@mantine/core";
-import { createLazyFileRoute, useParams } from "@tanstack/react-router";
+import { Link, Outlet } from "@tanstack/react-router";
 
-export const Route = createLazyFileRoute("/finance")({
-  component: Finance,
-});
-
-function Finance() {
-  const path = useParams({ strict: false });
-  console.log(path);
+const _layout = () => {
   const pages = [
     { name: "dashboard", href: "/finance" },
     {
@@ -40,16 +34,25 @@ function Finance() {
           <Title order={5}>Finances</Title>
           <Group gap="xs">
             {pages.map((p, i) => {
-              if (!p) return <Divider orientation="vertical" />;
+              if (!p) return <Divider key={i} orientation="vertical" />;
               return (
-                <Button key={i} variant="subtle" size="compact-xs">
+                <Button
+                  key={i}
+                  variant="subtle"
+                  size="compact-xs"
+                  component={Link}
+                  to={p.href}
+                >
                   {p.name}
                 </Button>
               );
             })}
           </Group>
         </Group>
+        <Outlet />
       </Stack>
     </Page>
   );
-}
+};
+
+export default _layout;
