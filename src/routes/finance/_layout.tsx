@@ -1,8 +1,12 @@
 import Page from "@/components/Page";
 import { Button, Divider, Group, Stack, Title } from "@mantine/core";
-import { Link, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
-const _layout = () => {
+export const Route = createFileRoute("/finance/_layout")({
+  component: LayoutComponent,
+});
+
+function LayoutComponent() {
   const pages = [
     { name: "dashboard", href: "/finance" },
     {
@@ -27,6 +31,7 @@ const _layout = () => {
       href: "/finance/accounts",
     },
   ];
+
   return (
     <Page>
       <Stack>
@@ -53,6 +58,4 @@ const _layout = () => {
       </Stack>
     </Page>
   );
-};
-
-export default _layout;
+}
