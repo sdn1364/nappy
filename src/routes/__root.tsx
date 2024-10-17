@@ -1,4 +1,4 @@
-import MainMenu from "@/components/MainMenu";
+import MainMenu from "@/resources/components/MainMenu";
 import { Flex } from "@mantine/core";
 import type { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";

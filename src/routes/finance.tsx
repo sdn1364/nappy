@@ -1,17 +1,17 @@
-import Page from "@/components/Page";
+import Page from "@/resources/components/Page";
 import { Button, Divider, Group, Stack, Title } from "@mantine/core";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/finance/_layout")({
-  component: LayoutComponent,
+export const Route = createFileRoute("/finance")({
+  component: Finance,
 });
 
-function LayoutComponent() {
+function Finance() {
   const pages = [
-    { name: "dashboard", href: "/finance" },
+    { name: "Dashboard", href: "/finance" },
     {
       name: "Expenses",
-      href: "/finance/expenses",
+      href: "/finance/expense",
     },
     {
       name: "Income",

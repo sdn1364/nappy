@@ -1,10 +1,6 @@
-import Page from "@/components/Page";
+import FinanceDashboard from "@/resources/views/finance/dashboard/dashboard";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/finance/")({
-  component: Finance,
+  component: FinanceDashboard,
 });
-
-function Finance() {
-  return <Page>Dashboard</Page>;
-}

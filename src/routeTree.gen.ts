@@ -13,14 +13,13 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as FinanceLayoutImport } from './routes/finance/_layout'
+import { Route as FinanceImport } from './routes/finance'
 
 // Create Virtual Routes
 
-const FinanceImport = createFileRoute('/finance')()
 const IndexLazyImport = createFileRoute('/')()
 const FinanceIndexLazyImport = createFileRoute('/finance/')()
-const FinanceExpensesLazyImport = createFileRoute('/finance/expenses')()
+const FinanceExpenseLazyImport = createFileRoute('/finance/expense')()
 
 // Create/Update Routes
 
@@ -37,19 +36,14 @@ const IndexLazyRoute = IndexLazyImport.update({
 const FinanceIndexLazyRoute = FinanceIndexLazyImport.update({
   path: '/',
   getParentRoute: () => FinanceRoute,
-} as any).lazy(() => import('./routes/finance/index.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/finance.index.lazy').then((d) => d.Route))
 
-const FinanceExpensesLazyRoute = FinanceExpensesLazyImport.update({
-  path: '/expenses',
+const FinanceExpenseLazyRoute = FinanceExpenseLazyImport.update({
+  path: '/expense',
   getParentRoute: () => FinanceRoute,
 } as any).lazy(() =>
-  import('./routes/finance/expenses.lazy').then((d) => d.Route),
+  import('./routes/finance.expense.lazy').then((d) => d.Route),
 )
-
-const FinanceLayoutRoute = FinanceLayoutImport.update({
-  id: '/_layout',
-  getParentRoute: () => FinanceRoute,
-} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -69,18 +63,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceImport
       parentRoute: typeof rootRoute
     }
-    '/finance/_layout': {
-      id: '/finance/_layout'
-      path: '/finance'
-      fullPath: '/finance'
-      preLoaderRoute: typeof FinanceLayoutImport
-      parentRoute: typeof FinanceRoute
-    }
-    '/finance/expenses': {
-      id: '/finance/expenses'
-      path: '/expenses'
-      fullPath: '/finance/expenses'
-      preLoaderRoute: typeof FinanceExpensesLazyImport
+    '/finance/expense': {
+      id: '/finance/expense'
+      path: '/expense'
+      fullPath: '/finance/expense'
+      preLoaderRoute: typeof FinanceExpenseLazyImport
       parentRoute: typeof FinanceImport
     }
     '/finance/': {
@@ -96,14 +83,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface FinanceRouteChildren {
-  FinanceLayoutRoute: typeof FinanceLayoutRoute
-  FinanceExpensesLazyRoute: typeof FinanceExpensesLazyRoute
+  FinanceExpenseLazyRoute: typeof FinanceExpenseLazyRoute
   FinanceIndexLazyRoute: typeof FinanceIndexLazyRoute
 }
 
 const FinanceRouteChildren: FinanceRouteChildren = {
-  FinanceLayoutRoute: FinanceLayoutRoute,
-  FinanceExpensesLazyRoute: FinanceExpensesLazyRoute,
+  FinanceExpenseLazyRoute: FinanceExpenseLazyRoute,
   FinanceIndexLazyRoute: FinanceIndexLazyRoute,
 }
 
@@ -112,38 +97,31 @@ const FinanceRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/finance': typeof FinanceLayoutRoute
-  '/finance/expenses': typeof FinanceExpensesLazyRoute
+  '/finance': typeof FinanceRouteWithChildren
+  '/finance/expense': typeof FinanceExpenseLazyRoute
   '/finance/': typeof FinanceIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/finance/expense': typeof FinanceExpenseLazyRoute
   '/finance': typeof FinanceIndexLazyRoute
-  '/finance/expenses': typeof FinanceExpensesLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/finance': typeof FinanceRouteWithChildren
-  '/finance/_layout': typeof FinanceLayoutRoute
-  '/finance/expenses': typeof FinanceExpensesLazyRoute
+  '/finance/expense': typeof FinanceExpenseLazyRoute
   '/finance/': typeof FinanceIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/finance' | '/finance/expenses' | '/finance/'
+  fullPaths: '/' | '/finance' | '/finance/expense' | '/finance/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/finance' | '/finance/expenses'
-  id:
-    | '__root__'
-    | '/'
-    | '/finance'
-    | '/finance/_layout'
-    | '/finance/expenses'
-    | '/finance/'
+  to: '/' | '/finance/expense' | '/finance'
+  id: '__root__' | '/' | '/finance' | '/finance/expense' | '/finance/'
   fileRoutesById: FileRoutesById
 }
 
@@ -177,23 +155,18 @@ export const routeTree = rootRoute
       "filePath": "index.lazy.tsx"
     },
     "/finance": {
-      "filePath": "finance",
+      "filePath": "finance.tsx",
       "children": [
-        "/finance/_layout",
-        "/finance/expenses",
+        "/finance/expense",
         "/finance/"
       ]
     },
-    "/finance/_layout": {
-      "filePath": "finance/_layout.tsx",
-      "parent": "/finance"
-    },
-    "/finance/expenses": {
-      "filePath": "finance/expenses.lazy.tsx",
+    "/finance/expense": {
+      "filePath": "finance.expense.lazy.tsx",
       "parent": "/finance"
     },
     "/finance/": {
-      "filePath": "finance/index.lazy.tsx",
+      "filePath": "finance.index.lazy.tsx",
       "parent": "/finance"
     }
   }
