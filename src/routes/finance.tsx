@@ -35,7 +35,7 @@ function Finance() {
   return (
     <Page>
       <Stack>
-        <Group justify="space-between">
+        <Group justify="space-between" align="flex-start" mb="lg">
           <Title order={5}>Finances</Title>
           <Group gap="xs">
             {pages.map((p, i) => {
