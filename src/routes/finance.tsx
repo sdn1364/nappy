@@ -1,12 +1,19 @@
 import Page from "@/resources/components/Page";
 import { Button, Divider, Group, Stack, Title } from "@mantine/core";
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  Outlet,
+  useLocation,
+} from "@tanstack/react-router";
 
 export const Route = createFileRoute("/finance")({
   component: Finance,
 });
 
 function Finance() {
+  const { pathname } = useLocation();
+
   const pages = [
     { name: "Dashboard", href: "/finance" },
     {
@@ -47,6 +54,7 @@ function Finance() {
                   size="compact-xs"
                   component={Link}
                   to={p.href}
+                  disabled={pathname === p.href}
                 >
                   {p.name}
                 </Button>

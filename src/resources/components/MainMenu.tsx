@@ -5,9 +5,10 @@ import {
   IconSquareCheck,
   IconStopwatch,
 } from "@tabler/icons-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 
 const MainMenu = () => {
+  const { pathname } = useLocation();
   const menus = [
     {
       name: "home",
@@ -48,7 +49,13 @@ const MainMenu = () => {
           position="right"
           label={name.charAt(0)?.toUpperCase() + name.slice(1)}
         >
-          <ActionIcon size="lg" variant="subtle" component={Link} to={href}>
+          <ActionIcon
+            size="lg"
+            variant="subtle"
+            component={Link}
+            to={href}
+            disabled={pathname === href}
+          >
             <Icon style={{ width: "70%", height: "70%" }} strokeWidth={1} />
           </ActionIcon>
         </Tooltip>
