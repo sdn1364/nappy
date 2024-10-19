@@ -4,14 +4,9 @@ import { PropsWithChildren } from "react";
 
 interface PageProps {
   header?: ReactNode;
-  heading?: string;
 }
 
-const Page = ({
-  children,
-  header: Header,
-  heading,
-}: PropsWithChildren<PageProps>) => {
+const Page = ({ children, header }: PropsWithChildren<PageProps>) => {
   return (
     <Stack
       p="md"
@@ -20,7 +15,7 @@ const Page = ({
         width: 1400,
       }}
     >
-      {Header && <Header />}
+      {header}
       {children}
     </Stack>
   );
