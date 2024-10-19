@@ -21,6 +21,7 @@ import { Route as FinanceImport } from './routes/finance'
 const IndexLazyImport = createFileRoute('/')()
 const FinanceIndexLazyImport = createFileRoute('/finance/')()
 const FinanceExpenseLazyImport = createFileRoute('/finance/expense')()
+const FinanceCategoriesLazyImport = createFileRoute('/finance/categories')()
 
 // Create/Update Routes
 
@@ -51,6 +52,13 @@ const FinanceExpenseLazyRoute = FinanceExpenseLazyImport.update({
   import('./routes/finance.expense.lazy').then((d) => d.Route),
 )
 
+const FinanceCategoriesLazyRoute = FinanceCategoriesLazyImport.update({
+  path: '/categories',
+  getParentRoute: () => FinanceRoute,
+} as any).lazy(() =>
+  import('./routes/finance.categories.lazy').then((d) => d.Route),
+)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -76,6 +84,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TimeTrackerImport
       parentRoute: typeof rootRoute
     }
+    '/finance/categories': {
+      id: '/finance/categories'
+      path: '/categories'
+      fullPath: '/finance/categories'
+      preLoaderRoute: typeof FinanceCategoriesLazyImport
+      parentRoute: typeof FinanceImport
+    }
     '/finance/expense': {
       id: '/finance/expense'
       path: '/expense'
@@ -96,11 +111,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface FinanceRouteChildren {
+  FinanceCategoriesLazyRoute: typeof FinanceCategoriesLazyRoute
   FinanceExpenseLazyRoute: typeof FinanceExpenseLazyRoute
   FinanceIndexLazyRoute: typeof FinanceIndexLazyRoute
 }
 
 const FinanceRouteChildren: FinanceRouteChildren = {
+  FinanceCategoriesLazyRoute: FinanceCategoriesLazyRoute,
   FinanceExpenseLazyRoute: FinanceExpenseLazyRoute,
   FinanceIndexLazyRoute: FinanceIndexLazyRoute,
 }
@@ -112,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/finance': typeof FinanceRouteWithChildren
   '/time-tracker': typeof TimeTrackerRoute
+  '/finance/categories': typeof FinanceCategoriesLazyRoute
   '/finance/expense': typeof FinanceExpenseLazyRoute
   '/finance/': typeof FinanceIndexLazyRoute
 }
@@ -119,6 +137,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/time-tracker': typeof TimeTrackerRoute
+  '/finance/categories': typeof FinanceCategoriesLazyRoute
   '/finance/expense': typeof FinanceExpenseLazyRoute
   '/finance': typeof FinanceIndexLazyRoute
 }
@@ -128,6 +147,7 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/finance': typeof FinanceRouteWithChildren
   '/time-tracker': typeof TimeTrackerRoute
+  '/finance/categories': typeof FinanceCategoriesLazyRoute
   '/finance/expense': typeof FinanceExpenseLazyRoute
   '/finance/': typeof FinanceIndexLazyRoute
 }
@@ -138,15 +158,22 @@ export interface FileRouteTypes {
     | '/'
     | '/finance'
     | '/time-tracker'
+    | '/finance/categories'
     | '/finance/expense'
     | '/finance/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/time-tracker' | '/finance/expense' | '/finance'
+  to:
+    | '/'
+    | '/time-tracker'
+    | '/finance/categories'
+    | '/finance/expense'
+    | '/finance'
   id:
     | '__root__'
     | '/'
     | '/finance'
     | '/time-tracker'
+    | '/finance/categories'
     | '/finance/expense'
     | '/finance/'
   fileRoutesById: FileRoutesById
@@ -187,12 +214,17 @@ export const routeTree = rootRoute
     "/finance": {
       "filePath": "finance.tsx",
       "children": [
+        "/finance/categories",
         "/finance/expense",
         "/finance/"
       ]
     },
     "/time-tracker": {
       "filePath": "time-tracker.tsx"
+    },
+    "/finance/categories": {
+      "filePath": "finance.categories.lazy.tsx",
+      "parent": "/finance"
     },
     "/finance/expense": {
       "filePath": "finance.expense.lazy.tsx",

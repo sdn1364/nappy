@@ -1,11 +1,6 @@
 import { Button, Group, Select, Stack, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
 
 const NewExpenseForm = () => {
-  const form = useForm({
-    initialValues: {},
-  });
-
   return (
     <Stack justify="space-between" h="100%">
       <Stack>

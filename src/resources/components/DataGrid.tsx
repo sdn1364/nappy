@@ -19,9 +19,11 @@ const DataGrid = ({ records, columns }) => {
     setData(records.slice(from, to));
   }, [page, pageSize]);
 
+  if (!records) return <div>Loading ...</div>;
+
   return (
     <DataTable
-      height="auto"
+      height={records.length > 0 ? "auto" : 300}
       withTableBorder
       borderRadius="sm"
       withColumnBorders

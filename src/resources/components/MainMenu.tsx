@@ -54,7 +54,7 @@ const MainMenu = () => {
             variant="subtle"
             component={Link}
             to={href}
-            disabled={pathname === href}
+            disabled={pathname.includes(href)}
           >
             <Icon style={{ width: "70%", height: "70%" }} strokeWidth={1} />
           </ActionIcon>
