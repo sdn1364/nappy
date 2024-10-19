@@ -1,17 +1,28 @@
-import { Box } from "@mantine/core";
+import { Stack } from "@mantine/core";
+import { ReactNode } from "@tanstack/react-router";
 import { PropsWithChildren } from "react";
 
-const Page = ({ children }: PropsWithChildren) => {
+interface PageProps {
+  header?: ReactNode;
+  heading?: string;
+}
+
+const Page = ({
+  children,
+  header: Header,
+  heading,
+}: PropsWithChildren<PageProps>) => {
   return (
-    <Box
+    <Stack
       p="md"
       mx="auto"
       style={{
         width: 1400,
       }}
     >
+      {Header && <Header />}
       {children}
-    </Box>
+    </Stack>
   );
 };
 
