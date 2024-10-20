@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const PAGE_SIZES = [10, 15, 20, 30, 50];
 
-const DataGrid = ({ records, columns }) => {
+const DataGrid = ({ records, columns, ...rest }) => {
   const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
 
   const [page, setPage] = useState(1);
@@ -45,6 +45,7 @@ const DataGrid = ({ records, columns }) => {
       paginationActiveTextColor="#e6e348"
       recordsPerPageOptions={PAGE_SIZES}
       onRecordsPerPageChange={setPageSize}
+      {...rest}
     />
   );
 };

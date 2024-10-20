@@ -1,8 +1,10 @@
+import { formattedDate } from "@/lib/dayjs";
 import DataGrid from "@/resources/components/DataGrid";
+import DataGridActions from "@/resources/components/DataGridActions";
 import NewExpenseForm from "@/resources/views/finance/expenses/NewExpenseForm";
-import { ActionIcon, Button, Drawer, Group } from "@mantine/core";
+import { Button, Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconPlus } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
 const FinanceExpenses = () => {
@@ -22,7 +24,7 @@ const FinanceExpenses = () => {
           id: i + 1,
           name: `test ${i + 1}`,
           category: `cat ${i + 1}`,
-          created_at: dayjs().format("MMM D YYYY"),
+          created_at: dayjs(),
         }))}
         columns={[
           { accessor: "id", width: 40, textAlign: "center", title: "#" },
@@ -32,6 +34,7 @@ const FinanceExpenses = () => {
             accessor: "created_at",
             textAlign: "center",
             title: "Created",
+            render: ({ created_at }) => formattedDate(created_at),
             width: 130,
           },
           {
@@ -48,16 +51,7 @@ const FinanceExpenses = () => {
             ),
             width: 90,
             textAlign: "center",
-            render: () => (
-              <Group gap={4} justify="center" wrap="nowrap">
-                <ActionIcon size="sm" variant="subtle" color="blue">
-                  <IconEdit size={16} />
-                </ActionIcon>
-                <ActionIcon size="sm" variant="subtle" color="red">
-                  <IconTrash size={16} />
-                </ActionIcon>
-              </Group>
-            ),
+            render: () => <DataGridActions />,
           },
         ]}
       />
