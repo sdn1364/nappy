@@ -6,6 +6,7 @@ export type Category = {
   name: string;
   type: string;
 };
+
 export const getAllCategories = async () => {
   const { data, error } = await supabase.from(TABLE_NAME).select("*");
   if (error) throw error;
@@ -16,7 +17,7 @@ export const createCategory = async (category: Category) => {
   const { data, error } = await supabase
     .from(TABLE_NAME)
     .insert(category)
-    .select();
+    .single();
   if (error) throw error;
   return data;
 };

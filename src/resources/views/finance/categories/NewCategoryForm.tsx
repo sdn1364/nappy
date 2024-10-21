@@ -2,6 +2,7 @@ import { useSaveCategory } from "@/models/api/categories";
 import { Category } from "@/models/services/categories";
 import { Button, Group, Select, Stack, TextInput } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import { z } from "zod";
 
 const categorySchema = z.object({
@@ -12,7 +13,7 @@ const categorySchema = z.object({
 const NewCategoryForm = () => {
   const mutation = useSaveCategory();
 
-  const form = useForm<Category>({
+  const form = useForm({
     mode: "uncontrolled",
     initialValues: {
       name: "",
@@ -22,8 +23,12 @@ const NewCategoryForm = () => {
   });
 
   const handleOnSubmit = async (values: Category) => {
-    // mutation.mutate(values);
-    form.resetDirty();
+    mutation.mutate(values);
+    notifications.show({
+      title: "Success",
+      message: "Category created successfully",
+      color: "green",
+    });
     form.reset();
   };
 
@@ -31,7 +36,7 @@ const NewCategoryForm = () => {
     <form onSubmit={form.onSubmit(handleOnSubmit)}>
       <Stack>
         <TextInput
-          label="Category name"
+          label="Name"
           withAsterisk
           key={form.key("name")}
           {...form.getInputProps("name")}

@@ -1,24 +1,16 @@
-import { MantineColor } from "@mantine/core";
-import { DataTable, DataTableColumn } from "mantine-datatable";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { DataTable } from "mantine-datatable";
 import { useEffect, useState } from "react";
 
 const PAGE_SIZES = [10, 15, 20, 30, 50];
 
-interface DataGridProps<T> {
-  records: T[];
-  columns: DataTableColumn;
-  rowColor?: (
-    record: T,
-    index: number
-  ) => MantineColor | undefined | { light: MantineColor; dark: MantineColor };
-}
+type DataGridProps = {
+  records: any[];
+  columns: any[];
+  rowColor?: any;
+};
 
-const DataGrid = <T,>({
-  records,
-  columns,
-  rowColor,
-  ...rest
-}: DataGridProps<T>) => {
+const DataGrid = ({ records, columns, rowColor, ...rest }: DataGridProps) => {
   const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
 
   const [page, setPage] = useState(1);
@@ -32,13 +24,12 @@ const DataGrid = <T,>({
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     setData(records.slice(from, to));
-  }, [page, pageSize]);
+  }, [page, pageSize, records]);
 
   if (!records) return <div>Loading ...</div>;
 
   return (
     <DataTable
-      // height={records.length > 0 ? "auto" : 300}
       height="90dvh"
       minHeight={400}
       withTableBorder

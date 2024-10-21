@@ -4,8 +4,7 @@ import {
   deleteCategory,
   getAllCategories,
 } from "@/models/services/categories";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient } from "../queryClient";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const queryKey = ["categories"];
 
@@ -17,19 +16,30 @@ export const useGetAllCategories = () => {
 };
 
 export const useSaveCategory = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (data: Category) => createCategory(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey });
+    mutationFn: createCategory,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey });
+    },
+    onError: (error) => {
+      console.error("Creating failed:", error);
     },
   });
 };
 
 export const useDeleteCategory = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (id: number) => deleteCategory(id),
+    mutationFn: deleteCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey });
+      queryClient.refetchQueries({ queryKey });
+    },
+    onError: (error) => {
+      console.error("Deleting failed:", error);
     },
   });
 };
