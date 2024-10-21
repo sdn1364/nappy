@@ -7,7 +7,7 @@ interface Header {
 }
 const Header = ({ children, heading }: Header) => {
   return (
-    <Group justify="space-between" align="flex-start" mb="lg">
+    <Group justify="space-between" align="flex-start">
       <Title order={5}>{heading}</Title>
       {children}
     </Group>

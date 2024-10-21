@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as TimeTrackerImport } from './routes/time-tracker'
+import { Route as HabitTrackerImport } from './routes/habit-tracker'
 import { Route as FinanceImport } from './routes/finance'
 
 // Create Virtual Routes
@@ -27,6 +28,11 @@ const FinanceCategoriesLazyImport = createFileRoute('/finance/categories')()
 
 const TimeTrackerRoute = TimeTrackerImport.update({
   path: '/time-tracker',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HabitTrackerRoute = HabitTrackerImport.update({
+  path: '/habit-tracker',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -75,6 +81,13 @@ declare module '@tanstack/react-router' {
       path: '/finance'
       fullPath: '/finance'
       preLoaderRoute: typeof FinanceImport
+      parentRoute: typeof rootRoute
+    }
+    '/habit-tracker': {
+      id: '/habit-tracker'
+      path: '/habit-tracker'
+      fullPath: '/habit-tracker'
+      preLoaderRoute: typeof HabitTrackerImport
       parentRoute: typeof rootRoute
     }
     '/time-tracker': {
@@ -128,6 +141,7 @@ const FinanceRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/finance': typeof FinanceRouteWithChildren
+  '/habit-tracker': typeof HabitTrackerRoute
   '/time-tracker': typeof TimeTrackerRoute
   '/finance/categories': typeof FinanceCategoriesLazyRoute
   '/finance/expense': typeof FinanceExpenseLazyRoute
@@ -136,6 +150,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/habit-tracker': typeof HabitTrackerRoute
   '/time-tracker': typeof TimeTrackerRoute
   '/finance/categories': typeof FinanceCategoriesLazyRoute
   '/finance/expense': typeof FinanceExpenseLazyRoute
@@ -146,6 +161,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/finance': typeof FinanceRouteWithChildren
+  '/habit-tracker': typeof HabitTrackerRoute
   '/time-tracker': typeof TimeTrackerRoute
   '/finance/categories': typeof FinanceCategoriesLazyRoute
   '/finance/expense': typeof FinanceExpenseLazyRoute
@@ -157,6 +173,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/finance'
+    | '/habit-tracker'
     | '/time-tracker'
     | '/finance/categories'
     | '/finance/expense'
@@ -164,6 +181,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/habit-tracker'
     | '/time-tracker'
     | '/finance/categories'
     | '/finance/expense'
@@ -172,6 +190,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/finance'
+    | '/habit-tracker'
     | '/time-tracker'
     | '/finance/categories'
     | '/finance/expense'
@@ -182,12 +201,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   FinanceRoute: typeof FinanceRouteWithChildren
+  HabitTrackerRoute: typeof HabitTrackerRoute
   TimeTrackerRoute: typeof TimeTrackerRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   FinanceRoute: FinanceRouteWithChildren,
+  HabitTrackerRoute: HabitTrackerRoute,
   TimeTrackerRoute: TimeTrackerRoute,
 }
 
@@ -205,6 +226,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/finance",
+        "/habit-tracker",
         "/time-tracker"
       ]
     },
@@ -218,6 +240,9 @@ export const routeTree = rootRoute
         "/finance/expense",
         "/finance/"
       ]
+    },
+    "/habit-tracker": {
+      "filePath": "habit-tracker.tsx"
     },
     "/time-tracker": {
       "filePath": "time-tracker.tsx"

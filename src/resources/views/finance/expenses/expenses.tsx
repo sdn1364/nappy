@@ -8,7 +8,7 @@ import { IconPlus } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
 const FinanceExpenses = () => {
-  const [opened, { open, close }] = useDisclosure(true);
+  const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
       <Drawer

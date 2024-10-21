@@ -1,7 +1,8 @@
-import { ActionIcon, Stack, Tooltip } from "@mantine/core";
+import { ActionIcon, Divider, Stack, Tooltip } from "@mantine/core";
 import {
   IconHome,
   IconHomeDollar,
+  IconSettings,
   IconSquareCheck,
   IconStopwatch,
 } from "@tabler/icons-react";
@@ -30,7 +31,14 @@ const MainMenu = () => {
       href: "/habit-tracker",
       icon: IconSquareCheck,
     },
+    undefined,
+    {
+      name: "settings",
+      href: "/settings",
+      icon: IconSettings,
+    },
   ];
+
   return (
     <Stack
       mah="100vh"
@@ -43,23 +51,32 @@ const MainMenu = () => {
         borderRight: "1px solid var(--mantine-color-dark-9)",
       }}
     >
-      {menus.map(({ name, icon: Icon, href }) => (
-        <Tooltip
-          key={name}
-          position="right"
-          label={name.charAt(0)?.toUpperCase() + name.slice(1)}
-        >
-          <ActionIcon
-            size="lg"
-            variant="subtle"
-            component={Link}
-            to={href}
-            disabled={pathname.includes(href)}
+      {menus.map((m, i) => {
+        if (!m) {
+          return <Divider key={i} />;
+        }
+
+        const { name, icon, href } = m;
+        const Icon = icon;
+
+        return (
+          <Tooltip
+            key={i}
+            position="right"
+            label={name!.charAt(0)?.toUpperCase() + name!.slice(1)}
           >
-            <Icon style={{ width: "70%", height: "70%" }} strokeWidth={1} />
-          </ActionIcon>
-        </Tooltip>
-      ))}
+            <ActionIcon
+              size="lg"
+              variant="subtle"
+              component={Link}
+              to={href}
+              disabled={pathname === href}
+            >
+              <Icon style={{ width: "70%", height: "70%" }} strokeWidth={1} />
+            </ActionIcon>
+          </Tooltip>
+        );
+      })}
     </Stack>
   );
 };

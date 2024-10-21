@@ -13,9 +13,13 @@ const NewExpenseForm = () => {
           ]}
         />
       </Stack>
-      <Group>
-        <Button>Save</Button>
-        <Button>Save and New</Button>
+      <Group mt="md">
+        <Button size="compact-xs" variant="light">
+          Save
+        </Button>
+        <Button size="compact-xs" variant="subtle">
+          Save and New
+        </Button>
       </Group>
     </Stack>
   );

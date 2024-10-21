@@ -1,9 +1,24 @@
-import { DataTable } from "mantine-datatable";
+import { MantineColor } from "@mantine/core";
+import { DataTable, DataTableColumn } from "mantine-datatable";
 import { useEffect, useState } from "react";
 
 const PAGE_SIZES = [10, 15, 20, 30, 50];
 
-const DataGrid = ({ records, columns, ...rest }) => {
+interface DataGridProps<T> {
+  records: T[];
+  columns: DataTableColumn;
+  rowColor?: (
+    record: T,
+    index: number
+  ) => MantineColor | undefined | { light: MantineColor; dark: MantineColor };
+}
+
+const DataGrid = <T,>({
+  records,
+  columns,
+  rowColor,
+  ...rest
+}: DataGridProps<T>) => {
   const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
 
   const [page, setPage] = useState(1);
@@ -23,12 +38,15 @@ const DataGrid = ({ records, columns, ...rest }) => {
 
   return (
     <DataTable
-      height={records.length > 0 ? "auto" : 300}
+      // height={records.length > 0 ? "auto" : 300}
+      height="90dvh"
+      minHeight={400}
       withTableBorder
       borderRadius="sm"
       withColumnBorders
       striped
       highlightOnHover
+      pinLastColumn
       records={data}
       columns={columns}
       totalRecords={records.length}
@@ -45,6 +63,7 @@ const DataGrid = ({ records, columns, ...rest }) => {
       paginationActiveTextColor="#e6e348"
       recordsPerPageOptions={PAGE_SIZES}
       onRecordsPerPageChange={setPageSize}
+      rowColor={rowColor}
       {...rest}
     />
   );

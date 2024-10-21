@@ -1,3 +1,3 @@
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
-export const formattedDate = (date: Dayjs) => dayjs(date).format("MMM D YYYY");
+export const formattedDate = (date: Date) => dayjs(date).format("MMM D YYYY");
