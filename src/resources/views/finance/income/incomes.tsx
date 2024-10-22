@@ -1,13 +1,13 @@
 import { formattedDate } from "@/lib/dayjs";
 import DataGrid from "@/resources/components/DataGrid";
 import DataGridActions from "@/resources/components/DataGridActions";
-import NewExpenseForm from "@/resources/views/finance/expenses/NewExpenseForm";
 import { Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPlus } from "@tabler/icons-react";
 import dayjs from "dayjs";
+import NewIncomeForm from "./NewIncomeForm";
 
-const FinanceExpenses = () => {
+const Incomes = () => {
   const [opened, { open, close }] = useDisclosure(true);
   return (
     <>
@@ -19,10 +19,10 @@ const FinanceExpenses = () => {
         yOffset="1vh"
         opened={opened}
         onClose={close}
-        title="New Expense"
+        title="New Income"
         size="xs"
       >
-        <NewExpenseForm />
+        <NewIncomeForm />
       </Modal>
       <DataGrid
         records={[...Array(50)].map((_, i) => ({
@@ -64,4 +64,4 @@ const FinanceExpenses = () => {
   );
 };
 
-export default FinanceExpenses;
+export default Incomes;

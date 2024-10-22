@@ -17,7 +17,7 @@ import {
   IconReceipt,
 } from "@tabler/icons-react";
 
-const NewExpenseForm = () => {
+const NewIncomeForm = () => {
   const { data: categories, isPending } = useGetAllCategories();
 
   return (
@@ -50,7 +50,7 @@ const NewExpenseForm = () => {
         rightSection={isPending && <Loader size="xs" />}
         data={
           categories
-            ?.filter((c) => c.type === "expense")
+            ?.filter((c) => c.type === "income")
             .map((c) => ({
               value: `${c.id}`,
               label: `${c.name}`,
@@ -85,4 +85,4 @@ const NewExpenseForm = () => {
   );
 };
 
-export default NewExpenseForm;
+export default NewIncomeForm;
