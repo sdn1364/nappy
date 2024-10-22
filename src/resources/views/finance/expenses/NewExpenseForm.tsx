@@ -1,24 +1,40 @@
-import { Button, Group, Select, Stack, TextInput } from "@mantine/core";
+import { useGetAllCategories } from "@/models/api/categories";
+import { Button, Group, Loader, Select, Stack, TextInput } from "@mantine/core";
 
 const NewExpenseForm = () => {
+  const { data: categories, isPending } = useGetAllCategories();
+
   return (
     <Stack justify="space-between" h="100%">
       <Stack>
-        <TextInput label="Name" />
+        <TextInput withAsterisk label="Name" />
         <Select
+          withAsterisk
           label="Category"
+          disabled={isPending}
+          rightSection={isPending && <Loader size="xs" />}
+          data={
+            categories
+              ?.filter((c) => c.type === "expense")
+              .map((c) => ({
+                value: `${c.id}`,
+                label: `${c.name}`,
+              })) ?? []
+          }
+        />
+
+        <Select
+          withAsterisk
+          label="Account"
           data={[
-            { value: "restaurant", label: "Restaurant" },
-            { value: "rent", label: "Rent" },
+            { value: "saving", label: "Chequing account" },
+            { value: "credit", label: "Credit account" },
           ]}
         />
       </Stack>
       <Group mt="md">
-        <Button size="compact-xs" variant="light">
+        <Button type="submit" variant="light">
           Save
-        </Button>
-        <Button size="compact-xs" variant="subtle">
-          Save and New
         </Button>
       </Group>
     </Stack>

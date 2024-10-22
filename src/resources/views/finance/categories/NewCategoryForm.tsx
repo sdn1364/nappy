@@ -52,6 +52,7 @@ const NewCategoryForm = () => {
           key={form.key("type")}
           {...form.getInputProps("type")}
         />
+
         <Group mt="md">
           <Button type="submit" variant="light">
             Save

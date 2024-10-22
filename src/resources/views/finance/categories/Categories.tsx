@@ -74,10 +74,10 @@ const Categories = () => {
       </Drawer>
 
       <DataGrid
-        // rowColor={({ type }: { type: string }) => {
-        //   if (type === "expense") return { dark: "red.5", light: "red.9" };
-        //   if (type === "income") return { dark: "blue.5", light: "blue.9" };
-        // }}
+        rowColor={({ type }: { type: string }) => {
+          if (type === "expense") return { dark: "red.5", light: "red.9" };
+          if (type === "income") return { dark: "blue.5", light: "blue.9" };
+        }}
         records={data ?? []}
         columns={columns}
       />

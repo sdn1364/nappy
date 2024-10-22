@@ -33,7 +33,7 @@ const DataGridActions = ({
           transition={{ ease: "easeOut", duration: 0.3 }}
         >
           <Group gap={3}>
-            <Text size="xs" c="dark">
+            <Text size="xs" c='{ dark: "dark.5", light: "dark.8" }'>
               Sure?
             </Text>
             <ActionIcon

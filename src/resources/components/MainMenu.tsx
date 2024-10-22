@@ -1,4 +1,11 @@
-import { ActionIcon, Divider, Stack, Tooltip } from "@mantine/core";
+import {
+  ActionIcon,
+  Avatar,
+  Box,
+  Divider,
+  Stack,
+  Tooltip,
+} from "@mantine/core";
 import {
   IconHome,
   IconHomeDollar,
@@ -7,6 +14,7 @@ import {
   IconStopwatch,
 } from "@tabler/icons-react";
 import { Link, useLocation } from "@tanstack/react-router";
+import ThemeToggle from "./theme-toggle";
 
 const MainMenu = () => {
   const { pathname } = useLocation();
@@ -40,44 +48,50 @@ const MainMenu = () => {
   ];
 
   return (
-    <Stack
+    <Box
       mah="100vh"
       w={50}
       py="md"
-      justify="flex-start"
-      align="center"
-      gap="xs"
       style={{
-        borderRight: "1px solid var(--mantine-color-dark-9)",
+        borderRight:
+          "1px solid light-dark(var(--mantine-color-dark-0),var(--mantine-color-dark-9))",
       }}
     >
-      {menus.map((m, i) => {
-        if (!m) {
-          return <Divider key={i} />;
-        }
+      <Stack align="center" gap="xs">
+        <Avatar
+          size="sm"
+          src="https://tabler.io/_next/image?url=%2Favatars%2Fdefault%2F70a23294beb91b4ad5a439e2c6ea5a6d.png&w=280&q=75"
+        ></Avatar>
+        <Divider w="40%" />
+        {menus.map((m, i) => {
+          if (!m) {
+            return <Divider w="40%" key={i} />;
+          }
 
-        const { name, icon, href } = m;
-        const Icon = icon;
+          const { name, icon, href } = m;
+          const Icon = icon;
 
-        return (
-          <Tooltip
-            key={i}
-            position="right"
-            label={name!.charAt(0)?.toUpperCase() + name!.slice(1)}
-          >
-            <ActionIcon
-              size="lg"
-              variant="subtle"
-              component={Link}
-              to={href}
-              disabled={pathname === href}
+          return (
+            <Tooltip
+              key={i}
+              position="right"
+              label={name!.charAt(0)?.toUpperCase() + name!.slice(1)}
             >
-              <Icon style={{ width: "70%", height: "70%" }} strokeWidth={1} />
-            </ActionIcon>
-          </Tooltip>
-        );
-      })}
-    </Stack>
+              <ActionIcon
+                size="lg"
+                variant="subtle"
+                component={Link}
+                to={href}
+                disabled={pathname === href}
+              >
+                <Icon style={{ width: "70%", height: "70%" }} strokeWidth={1} />
+              </ActionIcon>
+            </Tooltip>
+          );
+        })}
+        <ThemeToggle />
+      </Stack>
+    </Box>
   );
 };
 
