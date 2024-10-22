@@ -8,7 +8,7 @@ import { IconPlus } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
 const FinanceExpenses = () => {
-  const [opened, { open, close }] = useDisclosure(true);
+  const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
       <Modal
@@ -16,7 +16,6 @@ const FinanceExpenses = () => {
           backgroundOpacity: 0.55,
           blur: 3,
         }}
-        yOffset="1vh"
         opened={opened}
         onClose={close}
         title="New Expense"
@@ -39,7 +38,8 @@ const FinanceExpenses = () => {
             accessor: "created_at",
             textAlign: "center",
             title: "Created",
-            render: ({ created_at }) => formattedDate(created_at),
+            render: ({ created_at }: { created_at: Date }) =>
+              formattedDate(created_at),
             width: 130,
           },
           {
@@ -47,14 +47,15 @@ const FinanceExpenses = () => {
             title: (
               <Button
                 size="compact-xs"
-                variant="subtle"
+                s
+                variant="light"
                 onClick={open}
                 leftSection={<IconPlus size="1rem" />}
               >
                 New
               </Button>
             ),
-            width: 90,
+            width: 100,
             textAlign: "center",
             render: () => <DataGridActions />,
           },

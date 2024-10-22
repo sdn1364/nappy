@@ -1,6 +1,5 @@
-import { ActionIcon, Center, Group, Text } from "@mantine/core";
+import { ActionIcon, Group, Text } from "@mantine/core";
 import { IconCheck, IconEdit, IconTrash, IconX } from "@tabler/icons-react";
-import { motion } from "framer-motion";
 import { useState } from "react";
 interface DataGridActionsProps {
   onDelete?: () => void;
@@ -23,62 +22,57 @@ const DataGridActions = ({
 }: DataGridActionsProps) => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-  return (
-    <Center w="100%" h="100%" style={{ overflow: "hidden" }}>
-      {isDeleting ? (
-        <motion.div
-          key="popping"
-          initial={{ x: 50 }}
-          animate={{ x: 0 }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
+  return isDeleting ? (
+    <Group gap={1}>
+      <Text
+        size="xs"
+        c="light-dark(var(--mantine-color-dark-8),var(--mantine-color-dark-2))"
+      >
+        Sure?
+      </Text>
+      <ActionIcon.Group ml={3}>
+        <ActionIcon
+          size="compact-xs"
+          color="green"
+          variant="light"
+          loading={loading}
+          onClick={onDelete}
         >
-          <Group gap={3}>
-            <Text size="xs" c='{ dark: "dark.5", light: "dark.8" }'>
-              Sure?
-            </Text>
-            <ActionIcon
-              ml="xs"
-              color="green"
-              variant="light"
-              size="xs"
-              loading={loading}
-              onClick={onDelete}
-            >
-              <IconCheck size="1rem" strokeWidth={1.5} />
-            </ActionIcon>
-            <ActionIcon
-              color="red"
-              variant="light"
-              size="xs"
-              onClick={() => setIsDeleting(false)}
-            >
-              <IconX size="1rem" strokeWidth={1.5} />
-            </ActionIcon>
-          </Group>
-        </motion.div>
-      ) : (
-        <Group gap={4} justify="center" wrap="nowrap">
-          <ActionIcon
-            size="sm"
-            variant="light"
-            color="blue"
-            disabled={disabled.edit}
-            onClick={onEdit}
-          >
-            <IconEdit size="1rem" strokeWidth={1.5} />
-          </ActionIcon>
-          <ActionIcon
-            size="sm"
-            variant="light"
-            color="red"
-            disabled={disabled.delete}
-            onClick={() => setIsDeleting(true)}
-          >
-            <IconTrash size="1rem" strokeWidth={1.5} />
-          </ActionIcon>
-        </Group>
-      )}
-    </Center>
+          <IconCheck size="1rem" strokeWidth={1.5} />
+        </ActionIcon>
+        <ActionIcon
+          size="compact-xs"
+          color="red"
+          variant="light"
+          onClick={() => setIsDeleting(false)}
+        >
+          <IconX size="1rem" strokeWidth={1.5} />
+        </ActionIcon>
+      </ActionIcon.Group>
+    </Group>
+  ) : (
+    <Group justify="center">
+      <ActionIcon.Group>
+        <ActionIcon
+          size="sm"
+          variant="default"
+          c="blue"
+          disabled={disabled.edit}
+          onClick={onEdit}
+        >
+          <IconEdit size="1rem" strokeWidth={1.5} />
+        </ActionIcon>
+        <ActionIcon
+          size="sm"
+          variant="default"
+          c="red"
+          disabled={disabled.delete}
+          onClick={() => setIsDeleting(true)}
+        >
+          <IconTrash size="1rem" strokeWidth={1.5} />
+        </ActionIcon>
+      </ActionIcon.Group>
+    </Group>
   );
 };
 

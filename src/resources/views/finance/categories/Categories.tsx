@@ -6,7 +6,7 @@ import {
 import DataGrid from "@/resources/components/DataGrid";
 import DataGridActions from "@/resources/components/DataGridActions";
 import Loading from "@/resources/components/Loading";
-import { Button, Drawer } from "@mantine/core";
+import { Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPlus } from "@tabler/icons-react";
 import NewCategoryForm from "./NewCategoryForm";
@@ -42,7 +42,7 @@ const Categories = () => {
       accessor: "",
       title: (
         <Button
-          size="xs"
+          size="compact-xs"
           variant="light"
           onClick={open}
           leftSection={<IconPlus size="1rem" />}
@@ -50,7 +50,7 @@ const Categories = () => {
           New
         </Button>
       ),
-      width: 120,
+      width: 100,
       textAlign: "center",
       render: ({ isDefault, id }: { isDefault: boolean; id: number }) => (
         <DataGridActions
@@ -64,17 +64,25 @@ const Categories = () => {
 
   return (
     <>
-      <Drawer
+      <Modal
         opened={opened}
-        position="right"
         onClose={close}
         title="New Category"
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+        size="xs"
       >
         <NewCategoryForm />
-      </Drawer>
+      </Modal>
 
       <DataGrid
         rowColor={({ type }: { type: string }) => {
+          if (type === "expense") return { dark: "red.5", light: "red.9" };
+          if (type === "income") return { dark: "blue.5", light: "blue.9" };
+        }}
+        rowBackgroundColor={({ type }: { type: string }) => {
           if (type === "expense") return { dark: "red.5", light: "red.9" };
           if (type === "income") return { dark: "blue.5", light: "blue.9" };
         }}

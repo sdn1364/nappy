@@ -8,9 +8,16 @@ type DataGridProps = {
   records: any[];
   columns: any[];
   rowColor?: any;
+  rowBackgroundColor?: any;
 };
 
-const DataGrid = ({ records, columns, rowColor, ...rest }: DataGridProps) => {
+const DataGrid = ({
+  records,
+  columns,
+  rowColor,
+  rowBackgroundColor,
+  ...rest
+}: DataGridProps) => {
   const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
 
   const [page, setPage] = useState(1);
@@ -30,12 +37,12 @@ const DataGrid = ({ records, columns, rowColor, ...rest }: DataGridProps) => {
 
   return (
     <DataTable
+      rowColor={rowColor}
+      rowBackgroundColor={rowBackgroundColor}
       height="90dvh"
       minHeight={400}
       withTableBorder
-      borderRadius="sm"
       withColumnBorders
-      striped
       highlightOnHover
       pinLastColumn
       records={data}
@@ -43,18 +50,15 @@ const DataGrid = ({ records, columns, rowColor, ...rest }: DataGridProps) => {
       totalRecords={records.length}
       recordsPerPage={pageSize}
       page={page}
-      onPageChange={(p) => setPage(p)}
-      paginationSize="md"
+      onPageChange={setPage}
+      paginationSize="xs"
       loadingText="Loading..."
       noRecordsText="No records found"
       paginationText={({ from, to, totalRecords }) =>
         `Records ${from} - ${to} of ${totalRecords}`
       }
-      paginationActiveBackgroundColor="green"
-      paginationActiveTextColor="#e6e348"
       recordsPerPageOptions={PAGE_SIZES}
       onRecordsPerPageChange={setPageSize}
-      rowColor={rowColor}
       {...rest}
     />
   );
