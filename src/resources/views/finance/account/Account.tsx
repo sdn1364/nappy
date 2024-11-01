@@ -1,13 +1,13 @@
 import { formattedDate } from "@/lib/dayjs";
 import DataGrid from "@/resources/components/DataGrid";
 import DataGridActions from "@/resources/components/DataGridActions";
-import NewExpenseForm from "@/resources/views/finance/expenses/NewExpenseForm";
 import { Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPlus } from "@tabler/icons-react";
 import dayjs from "dayjs";
+import NewAccountForm from "./NewAccountForm";
 
-const FinanceExpenses = () => {
+const Account = () => {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
@@ -16,31 +16,32 @@ const FinanceExpenses = () => {
           backgroundOpacity: 0.55,
           blur: 3,
         }}
+        title="New Account"
+        size="xs"
         opened={opened}
         onClose={close}
-        title="New Expense"
-        size="xs"
       >
-        <NewExpenseForm />
+        <NewAccountForm />
       </Modal>
       <DataGrid
         records={[...Array(50)].map((_, i) => ({
           id: i + 1,
           name: `test ${i + 1}`,
+          amount: "21.22",
           category: `cat ${i + 1}`,
-          created_at: dayjs(),
+          description: "lorem",
+          date: dayjs(),
         }))}
         columns={[
           { accessor: "id", width: 40, textAlign: "center", title: "#" },
           { accessor: "name" },
-          { accessor: "category", textAlign: "center", width: 130 },
-          { accessor: "amount", textAlign: "center", width: 130 },
+          { accessor: "type", textAlign: "center", width: 130 },
+          { accessor: "Account", textAlign: "center", width: 100 },
           {
             accessor: "created_at",
             textAlign: "center",
             title: "Created",
-            render: ({ created_at }: { created_at: Date }) =>
-              formattedDate(created_at),
+            render: ({ date }: { date: Date }) => formattedDate(date),
             width: 130,
           },
           {
@@ -65,4 +66,4 @@ const FinanceExpenses = () => {
   );
 };
 
-export default FinanceExpenses;
+export default Account;
