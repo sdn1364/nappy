@@ -24,7 +24,7 @@ export const useSaveCategory = () => {
       await queryClient.invalidateQueries({ queryKey });
     },
     onError: (error) => {
-      console.error("Creating failed:", error);
+      console.error("Creating category failed:", error);
     },
   });
 };
