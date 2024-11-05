@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createExpense, Expense, getAllExpenses } from "../services/expenses";
+import {
+  createExpense,
+  Expense,
+  getAllExpenses,
+  sumExpense,
+} from "../services/expenses.service";
 
 const queryKey = ["expenses"];
 
@@ -21,5 +26,12 @@ export const useCreateExpense = () => {
     onError: (error) => {
       console.error("Creating expense failed", error);
     },
+  });
+};
+
+export const useSumAllExpenses = () => {
+  return useQuery<number>({
+    queryKey: ["expenses_sum"],
+    queryFn: sumExpense,
   });
 };

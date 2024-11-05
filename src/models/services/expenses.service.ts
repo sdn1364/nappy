@@ -40,4 +40,8 @@ export const createExpense = async (expense: Expense) => {
   return data;
 };
 
-export const sum = async () => {};
+export const sumExpense = async () => {
+  const { data, error } = await supabase.rpc("expense_sum");
+  if (error) throw error;
+  return data;
+};

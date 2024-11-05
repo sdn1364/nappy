@@ -9,12 +9,15 @@ import Loading from "@/resources/components/Loading";
 import { Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPlus } from "@tabler/icons-react";
-import NewCategoryForm from "./NewCategoryForm";
+import { useState } from "react";
+import NewCategoryForm from "./CategoryForm";
 
 const Categories = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const { data, isPending } = useGetAllCategories();
+
+  const [editing, setEditing] = useState<string | null>(null);
 
   const { mutate: deleteCategory, isPending: deleteIsPending } =
     useDeleteCategory();
@@ -56,6 +59,10 @@ const Categories = () => {
         <DataGridActions
           loading={deleteIsPending}
           onDelete={() => deleteCategory(id)}
+          onEdit={() => {
+            setEditing(id);
+            open();
+          }}
           disabled={{ edit: isDefault, delete: isDefault }}
         />
       ),
@@ -67,14 +74,14 @@ const Categories = () => {
       <Modal
         opened={opened}
         onClose={close}
-        title="New Category"
+        title={editing ? "Edit Category" : "New Category"}
         overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
         }}
         size="xs"
       >
-        <NewCategoryForm />
+        <NewCategoryForm editing={editing} />
       </Modal>
 
       <DataGrid

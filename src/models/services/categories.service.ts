@@ -1,9 +1,9 @@
-import { all, insert, remove, update } from "../orm";
+import { all, insert, remove, selectOneBy, update } from "../orm";
 
 const TABLE_NAME = "finance_category";
 
 export type Category = {
-  id?: string;
+  id: string;
   name: string;
   type: string;
 };
@@ -20,12 +20,18 @@ export const createCategory = async (category: Category) => {
   return data;
 };
 
-export const updateCategory = async (category: Category, id: number) => {
-  const { error } = await update<Category>(TABLE_NAME, category, id);
+export const updateCategory = async (category: Category) => {
+  const { error } = await update<Category>(TABLE_NAME, category);
   if (error) throw error;
 };
 
-export const deleteCategory = async (id: number) => {
+export const deleteCategory = async (id: string) => {
   const { error } = await remove(TABLE_NAME, id);
   if (error) throw error;
+};
+
+export const getCategoryById = async (id: string) => {
+  const { data, error } = await selectOneBy(TABLE_NAME, id);
+  if (error) throw error;
+  return data;
 };
