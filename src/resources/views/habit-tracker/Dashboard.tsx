@@ -1,5 +1,4 @@
 import Page from "@/resources/components/Page";
-import { Box, Group, lighten, Paper } from "@mantine/core";
 import { useRef } from "react";
 
 const Dashboard = () => {
@@ -7,19 +6,15 @@ const Dashboard = () => {
   console.log(chartRef);
   return (
     <Page>
-      <Paper ref={chartRef} p="md" withBorder>
-        <Group gap={1}>
+      <div ref={chartRef} p="md" withBorder>
+        <div className="flex flex-col gap-1">
           {[...Array(371)].map((_, i) => (
-            <Paper key={"cell-" + i} p="xs">
-              <Box
-                w="100%"
-                h="100%"
-                bg={lighten("var(--mantine-color-dark-9)", Math.random())}
-              ></Box>
-            </Paper>
+            <div className="p-5" key={"cell-" + i}>
+              <div className="w-full h-full" w="100%" h="100%"></div>
+            </div>
           ))}
-        </Group>
-      </Paper>
+        </div>
+      </div>
     </Page>
   );
 };

@@ -9,15 +9,13 @@ export type Route =
   | undefined;
 
 interface HeaderWithMenuProps {
-  routes: Route[];
+  routes?: Route[];
   heading?: string;
 }
 
 const HeaderWithMenu = ({ routes, heading }: HeaderWithMenuProps) => {
   return (
-    <Header heading={heading!}>
-      <TopMenu routes={routes} />
-    </Header>
+    <Header heading={heading!}>{routes && <TopMenu routes={routes} />}</Header>
   );
 };
 export default HeaderWithMenu;

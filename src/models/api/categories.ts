@@ -4,7 +4,7 @@ import {
   getAllCategories,
   getCategoryById,
   updateCategory,
-} from "@/models/services/categories.service";
+} from "@/models/services/categories.data";
 import {
   skipToken,
   useMutation,
@@ -28,6 +28,7 @@ export const useSaveCategory = () => {
     mutationFn: createCategory,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey });
+      await queryClient.refetchQueries({ queryKey });
     },
     onError: (error) => {
       console.error("Creating category failed:", error);

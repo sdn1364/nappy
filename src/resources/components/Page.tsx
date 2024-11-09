@@ -1,4 +1,3 @@
-import { Paper, Stack } from "@mantine/core";
 import { ReactNode } from "@tanstack/react-router";
 import { PropsWithChildren } from "react";
 
@@ -13,15 +12,15 @@ const Page = ({
   fullscreen,
 }: PropsWithChildren<PageProps>) => {
   return (
-    <Stack
-      mx="auto"
+    <div
+      className="mx-auto"
       style={{
         width: fullscreen ? "100%" : 1400,
       }}
     >
-      <Paper py="md">{header}</Paper>
+      <div className="h-14 my-5">{header}</div>
       {children}
-    </Stack>
+    </div>
   );
 };
 

@@ -1,9 +1,4 @@
-import {
-  createTheme,
-  localStorageColorSchemeManager,
-  MantineProvider,
-} from "@mantine/core";
-import { Notifications } from "@mantine/notifications";
+import { ThemeProvider } from "@/providers/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
@@ -26,27 +21,12 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const theme = createTheme({
-  fontFamily: "Poppins, sans-serif",
-  fontFamilyMonospace: "Monaco, Courier, monospace",
-  headings: { fontFamily: "Poppins, sans-serif" },
-});
-
-const colorSchemeManager = localStorageColorSchemeManager({
-  key: "my-app-color-scheme",
-});
-
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <MantineProvider
-        defaultColorScheme="dark"
-        theme={theme}
-        colorSchemeManager={colorSchemeManager}
-      >
-        <Notifications />
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <RouterProvider router={router} />
-      </MantineProvider>
+      </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

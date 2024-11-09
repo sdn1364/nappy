@@ -1,28 +1,20 @@
-import { Button, Divider, Group } from "@mantine/core";
-import { Link, useLocation } from "@tanstack/react-router";
+import { useLocation } from "@tanstack/react-router";
 import { Route } from "./HeaderWithMenu";
+import { Button } from "./ui/button";
 
 const TopMenu = ({ routes }: { routes: Route[] }) => {
   const { pathname } = useLocation();
 
   return (
-    <Group gap="xs">
+    <div className="flex flex-row gap-5">
       {routes.map((p, i) => {
-        if (!p) return <Divider key={i} orientation="vertical" />;
         return (
-          <Button
-            key={i}
-            variant="subtle"
-            size="compact-xs"
-            component={Link}
-            to={p.href}
-            disabled={pathname === p.href}
-          >
-            {p.name}
+          <Button key={i} disabled={pathname === p!.href}>
+            {p!.name}
           </Button>
         );
       })}
-    </Group>
+    </div>
   );
 };
 

@@ -1,4 +1,3 @@
-import { Group, Title } from "@mantine/core";
 import { ReactNode } from "react";
 
 interface Header {
@@ -7,10 +6,10 @@ interface Header {
 }
 const Header = ({ children, heading }: Header) => {
   return (
-    <Group justify="space-between" align="flex-start">
-      <Title order={5}>{heading}</Title>
+    <div className="flex flex-row justify-between items-start">
+      <h5>{heading}</h5>
       {children}
-    </Group>
+    </div>
   );
 };
 

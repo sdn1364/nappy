@@ -3,12 +3,12 @@ import {
   useSaveCategory,
   useUpdateCategory,
 } from "@/models/api/categories";
-import { Category } from "@/models/services/categories.service";
+import { Category } from "@/models/services/categories.data";
 import {
   Button,
   Group,
   LoadingOverlay,
-  Select,
+  Radio,
   Stack,
   TextInput,
 } from "@mantine/core";
@@ -56,7 +56,19 @@ const CategoryForm = ({ editing }: CategoryFormProps) => {
         color: "green",
       });
     } else {
-      await createMutate.mutate(values);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { id, ...rest } = values;
+      await createMutate.mutate(rest as Category);
+      // await createMutate.mutate(values as Category);
+
+      if (createMutate.isError) {
+        notifications.show({
+          title: "Error",
+          message: createMutate?.error?.message,
+          color: "red",
+        });
+        return;
+      }
       notifications.show({
         title: "Created",
         message: "Category created successfully",
@@ -94,7 +106,23 @@ const CategoryForm = ({ editing }: CategoryFormProps) => {
           key={form.key("name")}
           {...form.getInputProps("name")}
         />
-        <Select
+        <Radio.Group label="Type" withAsterisk {...form.getInputProps("type")}>
+          <Group mt="xs">
+            {[
+              { value: "expense", label: "Expense" },
+              { value: "income", label: "Income" },
+              { value: "other", label: "Other" },
+            ].map((o) => (
+              <Radio
+                name="type"
+                key={o.value}
+                label={o.label}
+                value={o.value}
+              />
+            ))}
+          </Group>
+        </Radio.Group>
+        {/* <Select
           withAsterisk
           label="Type"
           data={[
@@ -104,7 +132,7 @@ const CategoryForm = ({ editing }: CategoryFormProps) => {
           ]}
           key={form.key("type")}
           {...form.getInputProps("type")}
-        />
+        /> */}
 
         <Group mt="md">
           <Button type="submit" variant="light">

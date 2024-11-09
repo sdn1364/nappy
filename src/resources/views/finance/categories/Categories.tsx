@@ -6,7 +6,8 @@ import {
 import DataGrid from "@/resources/components/DataGrid";
 import DataGridActions from "@/resources/components/DataGridActions";
 import Loading from "@/resources/components/Loading";
-import { Button, Modal } from "@mantine/core";
+import Modal from "@/resources/components/Modal";
+import { Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPlus } from "@tabler/icons-react";
 import { useState } from "react";
@@ -18,6 +19,7 @@ const Categories = () => {
   const { data, isPending } = useGetAllCategories();
 
   const [editing, setEditing] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const { mutate: deleteCategory, isPending: deleteIsPending } =
     useDeleteCategory();
@@ -55,10 +57,13 @@ const Categories = () => {
       ),
       width: 100,
       textAlign: "center",
-      render: ({ isDefault, id }: { isDefault: boolean; id: number }) => (
+      render: ({ isDefault, id }: { isDefault: boolean; id: string }) => (
         <DataGridActions
-          loading={deleteIsPending}
-          onDelete={() => deleteCategory(id)}
+          loading={deleteIsPending && isDeleting === id}
+          onDelete={() => {
+            deleteCategory(id);
+            setIsDeleting(id);
+          }}
           onEdit={() => {
             setEditing(id);
             open();
@@ -75,11 +80,6 @@ const Categories = () => {
         opened={opened}
         onClose={close}
         title={editing ? "Edit Category" : "New Category"}
-        overlayProps={{
-          backgroundOpacity: 0.55,
-          blur: 3,
-        }}
-        size="xs"
       >
         <NewCategoryForm editing={editing} />
       </Modal>

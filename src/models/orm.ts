@@ -21,7 +21,7 @@ export const all = async (
 };
 
 export const insert = async <T>(table: string, data: T) =>
-  supabase.from(table).insert(data).single();
+  supabase.from(table).insert(data);
 
 export const update = async <T>(table: string, data: T & { id: string }) =>
   supabase.from(table).update(data).eq("id", data?.id);

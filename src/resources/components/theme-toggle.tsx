@@ -1,31 +1,22 @@
-import {
-  ActionIcon,
-  useComputedColorScheme,
-  useMantineColorScheme,
-} from "@mantine/core";
-import { IconMoon, IconSun } from "@tabler/icons-react";
+import { useTheme } from "@/providers/theme-provider";
+import { Moon, Sun } from "lucide-react";
+import { Button } from "./ui/button";
 
 const ThemeToggle = () => {
-  const { setColorScheme } = useMantineColorScheme();
-  const computedColorScheme = useComputedColorScheme("light", {
-    getInitialValueInEffect: true,
-  });
+  const { setTheme, theme } = useTheme();
 
   return (
-    <ActionIcon
-      onClick={() =>
-        setColorScheme(computedColorScheme === "light" ? "dark" : "light")
-      }
-      size="lg"
-      variant="subtle"
-      aria-label="Toggle color scheme"
+    <Button
+      variant="outline"
+      className="rounded-none"
+      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
-      {computedColorScheme === "light" ? (
-        <IconMoon style={{ width: "70%", height: "70%" }} strokeWidth={1} />
+      {theme === "light" ? (
+        <Moon strokeWidth={1.5} />
       ) : (
-        <IconSun style={{ width: "70%", height: "70%" }} strokeWidth={1} />
+        <Sun strokeWidth={1.5} />
       )}
-    </ActionIcon>
+    </Button>
   );
 };
 

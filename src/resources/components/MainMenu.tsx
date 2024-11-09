@@ -1,97 +1,121 @@
-import {
-  ActionIcon,
-  Avatar,
-  Box,
-  Divider,
-  Stack,
-  Tooltip,
-} from "@mantine/core";
-import {
-  IconHome,
-  IconHomeDollar,
-  IconSettings,
-  IconSquareCheck,
-  IconStopwatch,
-} from "@tabler/icons-react";
-import { Link, useLocation } from "@tanstack/react-router";
+import { useLocation } from "@tanstack/react-router";
+import { Bolt } from "lucide-react";
+import { useState } from "react";
+import SettingsDialog from "./SettingsDialog";
 import ThemeToggle from "./theme-toggle";
+import Tooltip from "./Tooltip";
+import { Button } from "./ui/button";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+} from "./ui/menubar";
+import UserAccountMenu from "./UserAccountMenu";
 
 const MainMenu = () => {
   const { pathname } = useLocation();
+  const [open, setOpen] = useState<boolean>(false);
   const menus = [
     {
       name: "home",
       href: "/",
-      icon: IconHome,
     },
     {
       name: "finance",
       href: "/finance",
-      icon: IconHomeDollar,
+      items: [
+        {
+          name: "Glance",
+          href: "/finance",
+        },
+        {
+          name: "Expense",
+          href: "/finance/expense",
+        },
+        {
+          name: "Income",
+          href: "finance/income",
+        },
+        {
+          name: "Savings",
+          href: "finance/savings",
+        },
+        undefined,
+        {
+          name: "Categories",
+          href: "finance/categories",
+        },
+        {
+          name: "Accounts",
+          href: "/finance/accounts",
+        },
+      ],
     },
     {
       name: "time tracker",
       href: "/time-tracker",
-      icon: IconStopwatch,
     },
     {
       name: "habit tracker",
       href: "/habit-tracker",
-      icon: IconSquareCheck,
     },
-    undefined,
     {
       name: "settings",
       href: "/settings",
-      icon: IconSettings,
     },
   ];
 
   return (
-    <Box
-      mah="100vh"
-      w={50}
-      py="md"
-      style={{
-        borderRight:
-          "1px solid light-dark(var(--mantine-color-dark-0),var(--mantine-color-dark-9))",
-      }}
-    >
-      <Stack align="center" gap="xs">
-        <Avatar
-          size="sm"
-          src="https://tabler.io/_next/image?url=%2Favatars%2Fdefault%2F70a23294beb91b4ad5a439e2c6ea5a6d.png&w=280&q=75"
-        ></Avatar>
-        <Divider w="40%" />
-        {menus.map((m, i) => {
-          if (!m) {
-            return <Divider w="40%" key={i} />;
-          }
-
-          const { name, icon, href } = m;
-          const Icon = icon;
-
-          return (
-            <Tooltip
-              key={i}
-              position="right"
-              label={name!.charAt(0)?.toUpperCase() + name!.slice(1)}
+    <>
+      <SettingsDialog open={open} onOpenChange={() => setOpen(false)} />
+      <Menubar className="flex flex-row justify-between">
+        <div className="flex flex-row space-x-1 items-center">
+          {menus.map((m, i) => {
+            const { name, items } = m;
+            return (
+              <MenubarMenu key={"main-menu-" + i}>
+                <MenubarTrigger>
+                  {name!.charAt(0)?.toUpperCase() + name!.slice(1)}
+                </MenubarTrigger>
+                {items && (
+                  <MenubarContent>
+                    {items.map((item, j) => {
+                      if (!item)
+                        return (
+                          <MenubarSeparator key={"menu-item-" + i + "-" + j} />
+                        );
+                      return (
+                        <MenubarItem key={"menu-item-" + i + "-" + j}>
+                          {item.name}
+                        </MenubarItem>
+                      );
+                    })}
+                  </MenubarContent>
+                )}
+              </MenubarMenu>
+            );
+          })}
+        </div>
+        <div className="flex flex-row items-center">
+          <Tooltip label="Settings">
+            <Button
+              variant="outline"
+              className="rounded-none border-r-0"
+              onClick={() => setOpen(true)}
             >
-              <ActionIcon
-                size="lg"
-                variant="subtle"
-                component={Link}
-                to={href}
-                disabled={pathname === href}
-              >
-                <Icon style={{ width: "70%", height: "70%" }} strokeWidth={1} />
-              </ActionIcon>
-            </Tooltip>
-          );
-        })}
-        <ThemeToggle />
-      </Stack>
-    </Box>
+              <Bolt strokeWidth="1.5" className="rotate-90" />
+            </Button>
+          </Tooltip>
+          <Tooltip label="Quick theme toggle">
+            <ThemeToggle />
+          </Tooltip>
+          <UserAccountMenu />
+        </div>
+      </Menubar>
+    </>
   );
 };
 

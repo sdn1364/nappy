@@ -1,4 +1,4 @@
-import { all, insert, remove, selectOneBy, update } from "../orm";
+import { all, insert, remove, selectOneById, update } from "../orm";
 
 const TABLE_NAME = "finance_category";
 
@@ -31,7 +31,7 @@ export const deleteCategory = async (id: string) => {
 };
 
 export const getCategoryById = async (id: string) => {
-  const { data, error } = await selectOneBy(TABLE_NAME, id);
+  const { data, error } = await selectOneById(TABLE_NAME, id);
   if (error) throw error;
   return data;
 };

@@ -4,7 +4,7 @@ import {
   Expense,
   getAllExpenses,
   sumExpense,
-} from "../services/expenses.service";
+} from "../services/expenses.data";
 
 const queryKey = ["expenses"];
 
